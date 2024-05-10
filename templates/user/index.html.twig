@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Users</h1>
+    <br>
+    {% include 'layouts/_flash_message.html.twig' %}
+        <table class="table">           
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                    {% if ('ROLE_ADMIN' in user.roles) %}
+                    <span class="badge bg-primary">Admin</span>
+                    {% elseif ('ROLE_EDITOR' in user.roles) %}
+                    <span class="badge bg-primary">Editor</span>
+                    {% else %}
+                    <span class="badge bg-primary">Client</span>
+                    {% endif %}   
+                    </td>
+                    <td>
+                    {% if ('ROLE_ADMIN' in user.roles)== false %}
+                        {% if('ROLE_EDITOR' in user.roles)== false %}
+                        <a onclick="return confirm('Do you wish to promote this user?')" href="{{ path('app_user_to_editor', {'id': user.id}) }}" class="btn btn-primary">Promote</a>
+                        {% else %}
+                        <a onclick=" return confirm('Do you Wish to demote this User')" href="{{ path('app_user_remove_editor', {'id': user.id}) }}" class="btn btn-danger">Demote</a>
+                        {% endif %}
+                    <a onclick=" return confirm('Do you Wish to remove this User')" href="{{ path('app_user_remove', {'id': user.id}) }}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                    
+                    </td>
+                </tr>
+                {% else %}
+                <p>No users found</p>
+                {% endfor %}
+        </table>
+        
+
+{% endblock %}

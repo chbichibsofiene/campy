@@ -3,14 +3,16 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
+<div class="container security-form">
+<form method="post" class="login-form">
+
+{% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            You are logged in as {{ app.user.nom }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
 
@@ -29,9 +31,13 @@
             <input type="checkbox" name="_remember_me"> Remember me
         </label>
     </div>
-
-    <button class="btn btn-lg btn-primary" type="submit">
+    <div class="mb-3">
+                You are Not Registred Yet! <a href="{{ path('app_register') }}">Register Now</a>
+    </div>
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">
         Sign in
     </button>
 </form>
+</div>    
 {% endblock %}
