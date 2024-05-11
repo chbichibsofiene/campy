@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Campy{% endblock %}
+
+{% block body %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.productName }}</td> <!-- Replace item.name with item.productName -->
+                <td>{{ item.price }}</td>
+                <td>{{ item.quantite }}</td> <!-- Replace item.quantity with item.quantite -->
+                <td>{{ item.price * item.quantite }}</td> <!-- Replace item.quantity with item.quantite -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,7 +1,7 @@
 body {
     /*background-color: skyblue;*/
 }
-.login-form {
+.login-form ,.table {
     width: 500px;
     margin: auto;
     padding: 20px;
@@ -22,3 +22,35 @@ body {
     height: 100vh;
     
 }
+h1 {
+    
+    margin-top: 50px;
+}
+a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
+.dropdown .dropdown-menu{
+    display: none;
+}
+.dropdown:hover > .dropdown-menu ,.dropend:hover > .dropdown-menu {
+    display: block;
+    margin-top: 0.125em;
+   
+  }
+  .dropend:hover > .dropdown-menu {
+    position:absolute;
+    top: 0;
+    left: 100%;
+    margin-left: .125em;
+  }
+ 
+.login-button {
+    text-align: center;
+    cursor: pointer;
+    margin-left: 50px;
+    margin-right: 10px;
+    width: 7%;
+    
+}
+  

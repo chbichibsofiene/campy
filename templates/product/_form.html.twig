@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+    <label for="name">Name</label>
+    {{ form_widget(form.name,{'attr':{'class':'form form-control'}} )}}
+    <label for="description">Description</label>
+    {{ form_widget(form.description,{'attr':{'class':'form form-control'}}) }}
+    <label for="price">Price</label>
+    {{ form_widget(form.price,{'attr':{'class':'form form-control'}}) }} 
+    <label for="price">Stock</label>
+       
+    
+    {% if not form.vars.value.id %}
+        <label for="stock">Stock</label>
+        {{ form_widget(form.stock, {'attr': {'class':'form form-control'}}) }}
+        {{ form_errors(form.stock) }}
+    {% else %}
+        {{ form_widget(form.stock, {'attr': {'class':'form form-control', 'disabled': 'disabled'}}) }}
+    {% endif %}
+    <br>
+    <label for="subcategory">SubCategory</label>
+    {{ form_widget(form.subCategories,{'attr':{'class':'form form-control'}}) }}
+    <label for="image">Image</label>
+    {{ form_widget(form.image,{'attr':{'class':'form '}}) }}
+    <br><br>
+    
+    <button class="btn btn-outline-primary btn-block">{{ button_label|default('Save') }} </button>
+    <br>
+{{ form_end(form) }}

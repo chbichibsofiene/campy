@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Campy{% endblock %}
 
 {% block body %}
 <div class="container">
-    <h1>Products</h1>
+    <h1>{{subCategory.name}}</h1>
     <br>
     <div class="row">
     {% for product in products %}
@@ -23,7 +24,7 @@
                                 <span class="badge text-bg-danger">Out Of Stock</span>
                             {% endif %}</p>
 
-            <a href="{{ path ('app_additem',{'id':product.id})}}" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+            <a href="#" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
         </div>
         </div>
     </div>

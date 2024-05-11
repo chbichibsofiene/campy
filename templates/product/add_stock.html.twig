@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Add Stock
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <br><br><br>
+        <h1>Add Stock</h1>
+        <h2>{{ product.name }}</h2>
+        <br>
+        {{ form_start(form) }}
+            <label for="stock">QTE</label>
+            {{ form_widget(form.qte,{'attr':{'class':'form form-control'}}) }}
+            <br><br>
+            <button class="btn btn-outline-primary btn-block">{{ button_label|default('Save') }} </button>
+            <br>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,10 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Campy{% endblock %}
-
 {% block body %}
-<div class="container">
-    <h1>Products</h1>
+    <div class="container">
+        <div class="card mb-3" style="margin-top:100px" ">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ asset('uploads/product_images/'~product.image) }}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <h3 class="card-text">{{ product.price }}dt</h3>
+                        <br><br><br>
+                        <a href="#" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+    <h2>Related Products</h2>
     <br>
     <div class="row">
     {% for product in products %}
@@ -14,7 +29,7 @@
             <div class="card-body">
             <a style= "text-decoration: none ; color:black "  href="{{ path ('app_home_show_product',{'id':product.id})}}"><h5 class="card-title">{{ product.name }}</h5></a>
             <p class="card-text">{{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}</p>
-            <h3 class="card-text">{{ product.price }}dt</h3>
+            <h3 class="card-text"> {{ product.price }}dt</h3>
             <p class="card-text">{% if product.stock > 99 %}
                                 <span class="badge text-bg-success">In Stock</span>
                             {% elseif product.stock > 9 %}
@@ -23,15 +38,10 @@
                                 <span class="badge text-bg-danger">Out Of Stock</span>
                             {% endif %}</p>
 
-            <a href="{{ path ('app_additem',{'id':product.id})}}" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+            <a href="#" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
         </div>
         </div>
     </div>
     {% endfor %}
-
-    
-</div>
-</div>
+    </div>
 {% endblock %}
-
-
