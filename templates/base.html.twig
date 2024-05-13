@@ -14,15 +14,14 @@
         {% endblock %}
     </head>
     <body>
+
         {% block nav %}
         {% include 'layouts/nav.html.twig' %}
         {% endblock %}
         
         {% block flash %}
         {% include 'layouts/_flash_message.html.twig' %}
-        {% endblock %}
-
-            
+        {% endblock %}    
         {% block body %}
         {% endblock %}
     </body>

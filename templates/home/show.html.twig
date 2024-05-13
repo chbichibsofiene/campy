@@ -5,7 +5,7 @@
         <div class="card mb-3" style="margin-top:100px" ">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="{{ asset('uploads/product_images/'~product.image) }}" class="img-fluid rounded-start" alt="...">
+                    <img src="{{ asset('uploads/product_images/'~product.image) }}" style="width:100%" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -13,7 +13,7 @@
                         <p class="card-text">{{ product.description }}</p>
                         <h3 class="card-text">{{ product.price }}dt</h3>
                         <br><br><br>
-                        <a href="#" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+                        <a href="{{ path ('app_cart_new',{'id':product.id})}}" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
         <div class="card" style="width: 18rem;">
             <img src="{{ asset('uploads/product_images/'~product.image) }}" class="card-img-top" alt="...">
             <div class="card-body">
-            <a style= "text-decoration: none ; color:black "  href="{{ path ('app_home_show_product',{'id':product.id})}}"><h5 class="card-title">{{ product.name }}</h5></a>
+            <a style= "text-decoration: none ; color:black "  href="{{ path ('app_home_show_product',{'id':product.id})}}"><h5 class="card-title">{{ product.name|length > 50 ? product.name|slice(0, 50) ~ '...' : product.name }}}}</h5></a>
             <p class="card-text">{{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}</p>
             <h3 class="card-text"> {{ product.price }}dt</h3>
             <p class="card-text">{% if product.stock > 99 %}
@@ -37,8 +37,14 @@
                             {% else %}    
                                 <span class="badge text-bg-danger">Out Of Stock</span>
                             {% endif %}</p>
+            {% if app.user %}
+            <a style=" display: block;" href="{{ path ('app_cart_add',{'id':product.id})}}" class="btn btn-secondary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
 
-            <a href="#" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+
+            {% else %}
+                <a style=" display: block;" href="{{ path ('app_login')}}" class="btn btn-secondary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+
+            {% endif %}
         </div>
         </div>
     </div>

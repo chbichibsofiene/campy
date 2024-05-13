@@ -22,7 +22,7 @@
         {% for product in products %}
             <tr>
                 <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
+                <td>{{ product.name | length > 20 ? product.name|slice(0, 20)  ~ '...' }}</td>
                 <td>{{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.stock }}</td>

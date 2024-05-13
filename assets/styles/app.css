@@ -1,7 +1,7 @@
 body {
     /*background-color: skyblue;*/
 }
-.login-form ,.table {
+.login-form  {
     width: 500px;
     margin: auto;
     padding: 20px;
@@ -52,5 +52,24 @@ a.disabled {
     margin-right: 10px;
     width: 7%;
     
+}
+.navbar {
+    height: 80px;
+    /* additional styles */
+}
+
+
+.navbar li {
+    font-size: 20px;
+    /* adjust the font size as needed */
+    
+}
+.background-login{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+
 }
   

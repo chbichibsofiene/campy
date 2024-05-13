@@ -2,36 +2,150 @@
 
 {% block title %}Campy{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+{% endblock %}
+
 {% block body %}
-<div class="container">
+<br>
+<br>
+<div class="container" >
+<div  style="width : 115.5%;"id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" >
+      <img  src="{{ asset('uploads/images/trans1.png') }}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{{ asset('uploads/images/trans2.png') }}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
     <h1>Products</h1>
     <br>
-    <div class="row">
-    {% for product in products %}
-    <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-            <img src="{{ asset('uploads/product_images/'~product.image) }}" class="card-img-top" alt="...">
-            <div class="card-body">
-            <a style= "text-decoration: none ; color:black "  href="{{ path ('app_home_show_product',{'id':product.id})}}"><h5 class="card-title">{{ product.name }}</h5></a>
-            <p class="card-text">{{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}</p>
-            <h3 class="card-text">{{ product.price }}dt</h3>
-            <p class="card-text">{% if product.stock > 99 %}
-                                <span class="badge text-bg-success">In Stock</span>
-                            {% elseif product.stock > 9 %}
-                                <span class="badge text-bg-warning">almost Out Of Stock</span>
-                            {% else %}    
-                                <span class="badge text-bg-danger">Out Of Stock</span>
-                            {% endif %}</p>
+    <div class="row" style="width:120%;">
+    
+    {% if products|length > 12 %}
+        {% set totalPages = (products|length / 12)|round(0, 'ceil') %}
+        {% set currentPage = app.request.query.get('page', 1) %}
+        {% set offset = (currentPage - 1) * 12 %}
+        {% set paginatedProducts = products|slice(offset, 12) %}
+        
+        
+        {% for product in paginatedProducts %}
 
-            <a href="{{ path ('app_additem',{'id':product.id})}}" class="btn btn-primary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
-        </div>
-        </div>
-    </div>
-    {% endfor %}
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;height: 33rem;">
+                    <img style="width: 100%; height: 300px; object-fit: cover;" src="{{ asset('uploads/product_images/'~product.image) }}" class="card-img-top" alt="...">
+                    <div class="card-body" href="{{ path ('app_home_show_product',{'id':product.id})}}">
+                        <a style= "text-decoration: none ; color:black "  href="{{ path ('app_home_show_product',{'id':product.id})}}"><h5 class="card-title">{{ product.name|length > 20 ? product.name|slice(0, 20) ~ '...' : product.name }}</h5></a>
+                        <p class="card-text">{{ product.description|length > 20 ? product.description|slice(0, 20) ~ '...' : product.description }}</p>
+                        <h3 class="card-text">{{ product.price }}dt</h3>
+                        <p class="card-text">{% if product.stock > 99 %}
+                        
+                            <span class="badge text-bg-success">In Stock</span>
+                        {% elseif product.stock > 9 %}
+                            <span class="badge text-bg-warning">almost Out Of Stock</span>
+                        {% else %}    
+                            <span class="badge text-bg-danger">Out Of Stock</span>
+                        {% endif %}</p>
+                    
+                            {% if app.user %}
+                            <a style=" display: block;" href="{{ path ('app_cart_add',{'id':product.id})}}" class="btn btn-secondary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+                            {% else %}
+                            <a style=" display: block;" href="{{ path ('app_login')}}" class="btn btn-secondary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+                            {% endif %}
+                    
+                    </div>
+                </div>
+                <br><br>
+            </div>
+        {% endfor %}
+        
+        <nav aria-label="Page navigation example">
+            <ul style="display:flex ;align-items:center;" class="pagination justify-content-end">
+                {% if currentPage > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_home', {'page': currentPage - 1}) }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">Previous</a>
+                    </li>
+                {% endif %}
+                
+                {% for page in 1..totalPages %}
+                    {% if page == currentPage %}
+                        <li class="page-item active">
+                            <a class="page-link" href="{{ path('app_home', {'page': page}) }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_home', {'page': page}) }}">{{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if currentPage < totalPages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_home', {'page': currentPage + 1}) }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <div class="row">
+                {% for product in products %}
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ asset('uploads/product_images/'~product.image) }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <a style="text-decoration: none; color:black" href="{{ path ('app_home_show_product',{'id':product.id})}}">
+                                <h5 class="card-title">{{ product.name|length > 50 ? product.name|slice(0, 50) ~ '...' : product.name }}</h5>
+                            </a>
+                            <p class="card-text">{{ product.description|length > 50 ? product.description|slice(0, 50) ~ '...' : product.description }}</p>
+                            <h3 class="card-text"> {{ product.price }}dt</h3>
+                            <p class="card-text">
+                                {% if product.stock > 99 %}
+                                    <span class="badge text-bg-success">In Stock</span>
+                                {% elseif product.stock > 9 %}
+                                    <span class="badge text-bg-warning">almost Out Of Stock</span>
+                                {% else %}    
+                                    <span class="badge text-bg-danger">Out Of Stock</span>
+                                {% endif %}
+                            </p>
+                            {% if app.user %}
+                            <a style=" display: block;" href="{{ path ('app_cart_add',{'id':product.id})}}" class="btn btn-secondary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+                            {% else %}
+                            <a style=" display: block;" href="{{ path ('app_login')}}" class="btn btn-secondary {{ product.stock <= 0 ? 'disabled' : '' }}">Add to Cart</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+    {% endif %}
 
     
 </div>
 </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock %}
 
 
